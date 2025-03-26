@@ -95,6 +95,23 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     };
 
+    // Update Stats
+    const updateStats = () => {
+      const totalTasks = todos.length;
+      const completedTasks = todos.filter((todo) => todo.completed).length;
+      const pendingTasks = totalTasks - completedTasks;
+  
+      totalTasksElement.textContent = totalTasks;
+      completedTasksElement.textContent = completedTasks;
+      pendingTasksElement.textContent = pendingTasks;
+    };
+  
+    // Save Todos to Local Storage
+    const saveTodos = () => localStorage.setItem("todos", JSON.stringify(todos));
+  
+    // Event Listeners for Todo Form
+    todoForm.addEventListener("submit", addTodo);
+
 
     init();
   });
