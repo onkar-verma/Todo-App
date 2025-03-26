@@ -52,6 +52,49 @@ document.addEventListener("DOMContentLoaded", () => {
       updateStats();
     };
 
+    // Toggle todo completion
+    const toggleComplete = (id) => {
+      todos = todos.map((todo) =>
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+      );
+      saveTodos();
+      renderTodos();
+      updateStats();
+    };
+
+    // Render Todos
+    const renderTodos = () => {
+      todoList.innerHTML = "";
+  
+      if (todos.length === 0) {
+        todoList.innerHTML = `<li class="empty-state">No tasks yet. Add a task to get started!</li>`;
+        return;
+      }
+  
+      todos.forEach((todo) => {
+        const todoItem = document.createElement("li");
+        todoItem.classList.add("todo-item");
+        if (todo.completed) {
+          todoItem.classList.add("completed");
+        }
+  
+        todoItem.innerHTML = `
+            <input type="checkbox" class="todo-checkbox" ${todo.completed ? "checked" : ""} />
+            <span class="todo-text">${todo.text}</span>
+            <div class="todo-actions">
+                <button class="action-button complete-button">${todo.completed ? "↩" : "✓"}</button>
+                <button class="action-button delete-button">×</button>
+            </div>
+        `;
+  
+        todoItem.querySelector(".todo-checkbox").addEventListener("change", () => toggleComplete(todo.id));
+        todoItem.querySelector(".complete-button").addEventListener("click", () => toggleComplete(todo.id));
+        todoItem.querySelector(".delete-button").addEventListener("click", () => deleteTodo(todo.id));
+  
+        todoList.appendChild(todoItem);
+      });
+    };
+
 
     init();
   });
