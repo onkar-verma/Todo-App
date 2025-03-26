@@ -18,7 +18,41 @@ document.addEventListener("DOMContentLoaded", () => {
       updateStats();
     };
 
-    
+    // Add a new todo
+    const addTodo = (e) => {
+      e.preventDefault();
+  
+      const todoText = todoInput.value.trim();
+      if (todoText === "") {
+        todoInput.style.animation = "shake 0.5s";
+        setTimeout(() => (todoInput.style.animation = ""), 500);
+        return;
+      }
+  
+      const newTodo = {
+        id: Date.now().toString(),
+        text: todoText,
+        completed: false,
+      };
+  
+      todos.unshift(newTodo);
+      saveTodos();
+      renderTodos();
+      updateStats();
+  
+      todoInput.value = "";
+      todoInput.focus();
+    };
+
+    // Delete a todo
+    const deleteTodo = (id) => {
+      todos = todos.filter((todo) => todo.id !== id);
+      saveTodos();
+      renderTodos();
+      updateStats();
+    };
+
+
     init();
   });
   
